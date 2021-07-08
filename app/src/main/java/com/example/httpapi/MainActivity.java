@@ -1,8 +1,10 @@
 package com.example.httpapi;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
         postBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "POST request", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "POST button Clicked", Toast.LENGTH_SHORT).show();
                 //Your code goes here
                 String name = getTextFromEditText(nameEditText);
                 String link = BASE_URL + "post";
-                sqlClicked = false;
+
                 Task2 task2 = new Task2();
                 task2.execute(link, name);
             }
@@ -91,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
         return jsonResponse;
     }
 
-    public String postToAPI(String name, String link) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public String postToAPI(String link, String name) {
         String jsonResponse = "";
         URL url = QueryUtils.createUrl(link);
         return jsonResponse = QueryUtils.makeHttpPostRequest(url, name);
@@ -136,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class Task2 extends AsyncTask<String, String, String> {
 
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected String doInBackground(String... strings) {
             Log.i("MainActivity.this", "Bg= " + strings[0]);
